@@ -19,6 +19,7 @@ def doubleSort(A, B):
                 B[each], B[i] = B[i], B[each]
     return [A, B]
 '''
+'''
 def grab_cut(inpDir):
     img = cv2.imread(inpDir)
     mask = np.zeros(img.shape[:2], np.uint8)
@@ -29,6 +30,7 @@ def grab_cut(inpDir):
     mask2 = np.where((mask==2)|(mask==0),0,1).astype('uint8')
     img = img*mask2[:,:,np.newaxis]
     return img
+    '''
 def x1x2(file_name):
     img = cv2.imread(file_name) 
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  
