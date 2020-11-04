@@ -183,18 +183,14 @@ def x1x2(file_name):
     cmDivPixB = 30/outerUpperLen# extremely important!!
     if backOuterCoorL[0][0] < backOuterCoorL[1][0]:
         if backBottomL[0][0] < backBottomL[1][0]:
-            backleftTwoCoorInd = [backOuterCoorL[0], backBottomL[0]]
-            backrighttTwoCoorInd = [backOuterCoorL[1], backBottomL[1]]
+            backleftTwoCoorInd = [backOuterCoorL[0], backBottomL[0]]; backrighttTwoCoorInd = [backOuterCoorL[1], backBottomL[1]]
         elif backBottomL[0][0] > backBottomL[1][0]:
-            backleftTwoCoorInd = [backOuterCoorL[0], backBottomL[1]]
-            backrighttTwoCoorInd = [backOuterCoorL[1], backBottomL[0]]
+            backleftTwoCoorInd = [backOuterCoorL[0], backBottomL[1]]; backrighttTwoCoorInd = [backOuterCoorL[1], backBottomL[0]]
     elif backOuterCoorL[0][0] > backOuterCoorL[1][0]:
         if backBottomL[0][0] < backBottomL[1][0]:
-            backleftTwoCoorInd = [backOuterCoorL[1], backBottomL[0]]
-            backrighttTwoCoorInd = [backOuterCoorL[0], backBottomL[1]]
+            backleftTwoCoorInd = [backOuterCoorL[1], backBottomL[0]]; backrighttTwoCoorInd = [backOuterCoorL[0], backBottomL[1]]
         elif backBottomL[0][0] > backBottomL[1][0]:
-            backleftTwoCoorInd = [backOuterCoorL[1], backBottomL[1]]
-            backrighttTwoCoorInd = [backOuterCoorL[0], backBottomL[0]]
+            backleftTwoCoorInd = [backOuterCoorL[1], backBottomL[1]]; backrighttTwoCoorInd = [backOuterCoorL[0], backBottomL[0]]
 
     #=============================================================================================================================================================================
     #===========================================================Now, front len part of the whole code!============================================================================
@@ -224,5 +220,5 @@ def x1x2(file_name):
     bl = math.sqrt((((backleftTwoCoorInd[0][0]-backleftTwoCoorInd[1][0])**2 + (backleftTwoCoorInd[0][1]-backleftTwoCoorInd[1][1])**2)**(1/2)*cmDivPixB)**2-8)
     br = math.sqrt((((backrighttTwoCoorInd[0][0]-backrighttTwoCoorInd[1][0])**2 + (backrighttTwoCoorInd[0][1]-backrighttTwoCoorInd[1][1])**2)**(1/2)*cmDivPixB)**2-8)
     return bl, br
-print(x1x2('processed_img/processed2.png'))#6, 2, 
+print(x1x2('processed_img/processed2.png'))#6, 2
 #prob= 1, 3, 4, 5, 7, 8
