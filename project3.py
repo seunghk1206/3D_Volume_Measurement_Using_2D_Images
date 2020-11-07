@@ -2,6 +2,7 @@ import cv2
 import numpy as np 
 import matplotlib.pyplot as plt 
 import math
+import time
 def doubleSort(A, B):
     for i in range(0, len(A)):
         minIndex = i
@@ -32,6 +33,7 @@ def grab_cut(inpDir):
     return img
     '''
 def x1x2(file_name):
+    start_time = time.time()
     img = cv2.imread(file_name) 
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  
     corners2 = cv2.goodFeaturesToTrack(gray_img, 300, 0.0001, 10) 
@@ -45,15 +47,18 @@ def x1x2(file_name):
             xL.append(i[0])
             yL.append(i[1])
     ######====make it unproceeding if you only want the data.=========
+    '''
             x, y = i.ravel() 
             cv2.circle(img, (x, y), 3, (255, 0, 0), -1)
     plt.imshow(img) 
     plt.show()
     if cv2.waitKey(0) & 0xff == 27:  
         cv2.destroyAllWindows() 
+        '''
     ######============================================================
 
     ######====make it unproceeding if you only want the data.=========
+    '''
     for each in corners2:
         for i in each:
             x, y = i.ravel() 
@@ -62,6 +67,7 @@ def x1x2(file_name):
     plt.show()
     if cv2.waitKey(0) & 0xff == 27:  
         cv2.destroyAllWindows() 
+        '''
     ######============================================================
     #copyright, GeeksforGeeks @hachiman_20
     #================making lists for required information/sorted list using an axis as the base=================
@@ -198,5 +204,6 @@ def x1x2(file_name):
             pointsForFr.append([xLStandardSortL[0][each], xLStandardSortL[1][each]])
     bl = math.sqrt((((backleftTwoCoorInd[0][0]-backleftTwoCoorInd[1][0])**2 + (backleftTwoCoorInd[0][1]-backleftTwoCoorInd[1][1])**2)**(1/2)*cmDivPixB)**2-5)
     br = math.sqrt((((backrighttTwoCoorInd[0][0]-backrighttTwoCoorInd[1][0])**2 + (backrighttTwoCoorInd[0][1]-backrighttTwoCoorInd[1][1])**2)**(1/2)*cmDivPixB)**2-5)
+    print("--- %s seconds ---" % (time.time() - start_time))
     return bl, br
-print(x1x2('processed_img/processed8.png'))
+print(x1x2('processed_img/processed2.png'))
