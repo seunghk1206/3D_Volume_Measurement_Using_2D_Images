@@ -11,34 +11,13 @@ def doubleSort(A, B):
                 A[j], A[minIndex] = A[minIndex], A[j]
                 B[j], B[minIndex] = B[minIndex], B[j]
     return [A, B]
-'''
-def doubleSort(A, B):
-    for each in range(0, len(A)): 
-        for i in range(0, len(A)): 
-            if A[each] < A[i]: 
-                A[each], A[i] = A[i], A[each]
-                B[each], B[i] = B[i], B[each]
-    return [A, B]
-'''
-'''
-def grab_cut(inpDir):
-    img = cv2.imread(inpDir)
-    mask = np.zeros(img.shape[:2], np.uint8)
-    bgdModel = np.zeros((1,65),np.float64)
-    fgdModel = np.zeros((1,65),np.float64)
-    rect = (50,50,600,500)
-    cv2.grabCut(img,mask,rect,bgdModel,fgdModel,5,cv2.GC_INIT_WITH_RECT)
-    mask2 = np.where((mask==2)|(mask==0),0,1).astype('uint8')
-    img = img*mask2[:,:,np.newaxis]
-    return img
-'''
 def x1x2(file_name):
     #start_time = time.time()
     img = cv2.imread(file_name) 
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  
     corners2 = cv2.goodFeaturesToTrack(gray_img, 300, 0.0001, 10) 
     corners2 = np.int0(corners2) 
-    corners = cv2.goodFeaturesToTrack(gray_img, 50, 0.1, 10) 
+    corners = cv2.goodFeaturesToTrack(gray_img, 300, 0.1, 10) 
     corners = np.int0(corners) 
     #=============================key point ====================================
     xL = []; yL = []
@@ -170,31 +149,34 @@ def x1x2(file_name):
             length2L.append(((backOuterCoorL[0][1]-each[1])**2+(backOuterCoorL[0][0]-each[0])**2)**(1/2))
             slopeL.append((backOuterCoorL[1][1]-each[1])/(backOuterCoorL[1][0]-each[0]))
             lengthL.append(((backOuterCoorL[1][1]-each[1])**2+(backOuterCoorL[1][0]-each[0])**2)**(1/2))
+    '''
     for each in range(len(lengthL)):
         if lengthL[each] > 28.5:
             pass
         else:
             lengthL.pop(each)
             angleL.pop(each)
+    '''
     for each in slopeL:
         if each == 'inf':
             angleL.append(90)
         else:
             angleL.append(math.atan(each)*(180/math.pi))
-    for each in range(len(angleL)):
-        backBottomL.append(tempL[angleL.index(max(angleL))])
+    backBottomL.append(tempL[angleL.index(max(angleL))])
     del angleL[:]#reset the list before recycling
     for each in slope2L:
         if each == 'inf':
             angleL.append(90)
         else:
             angleL.append(math.atan(each)*(180/math.pi))
+    '''
     for each in range(len(lengthL)):
         if length2L[each] > 28.5:
             pass
         else:
             length2L.pop(each)
             angleL.pop(each)
+    '''
     backBottomL.append(tempL[angleL.index(min(angleL))])
 
     #=============================================================================================================================================================================
@@ -226,6 +208,7 @@ def x1x2(file_name):
         backleftOuterCoor = backOuterCoorL[1]
         backrightOuterCoor = backOuterCoorL[0]
     print(backleftOuterCoor, backrightOuterCoor)
+    '''
     #============================declare the lists that will be used to determine fl and fr==================================
     pointsForFl = []; pointsForFr = []
     #==================reset the xL & yL to the low quality corners in order to determine the fl and fr======================
@@ -240,6 +223,7 @@ def x1x2(file_name):
             pointsForFl.append([xLStandardSortL[0][each], xLStandardSortL[1][each]])
         if xLStandardSortL[0][each] >= backrightOuterCoor[0]:
             pointsForFr.append([xLStandardSortL[0][each], xLStandardSortL[1][each]])
+    '''
     bl = math.sqrt((((backleftTwoCoorInd[0][0]-backleftTwoCoorInd[1][0])**2 + (backleftTwoCoorInd[0][1]-backleftTwoCoorInd[1][1])**2)**(1/2)*cmDivPixB)**2-8)
     br = math.sqrt((((backrighttTwoCoorInd[0][0]-backrighttTwoCoorInd[1][0])**2 + (backrighttTwoCoorInd[0][1]-backrighttTwoCoorInd[1][1])**2)**(1/2)*cmDivPixB)**2-8)
     #print("--- %s seconds ---" % (time.time() - start_time))
