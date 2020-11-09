@@ -170,11 +170,12 @@ def x1x2(file_name):
             length2L.append(((backOuterCoorL[0][1]-each[1])**2+(backOuterCoorL[0][0]-each[0])**2)**(1/2))
             slopeL.append((backOuterCoorL[1][1]-each[1])/(backOuterCoorL[1][0]-each[0]))
             lengthL.append(((backOuterCoorL[1][1]-each[1])**2+(backOuterCoorL[1][0]-each[0])**2)**(1/2))
-    for each in lengthL:
-        if each > 28.5:
+    for each in range(len(lengthL)):
+        if lengthL[each] > 28.5:
             pass
         else:
-            lengthL.remove(each)
+            lengthL.pop(each)
+            angleL.pop(each)
     for each in slopeL:
         if each == 'inf':
             angleL.append(90)
@@ -188,6 +189,12 @@ def x1x2(file_name):
             angleL.append(90)
         else:
             angleL.append(math.atan(each)*(180/math.pi))
+    for each in range(len(lengthL)):
+        if length2L[each] > 28.5:
+            pass
+        else:
+            length2L.pop(each)
+            angleL.pop(each)
     backBottomL.append(tempL[angleL.index(min(angleL))])
 
     #=============================================================================================================================================================================
