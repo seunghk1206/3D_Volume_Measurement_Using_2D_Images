@@ -3,6 +3,20 @@ import numpy as np
 import matplotlib.pyplot as plt 
 import math
 import time
+
+def pythagorasTheorem(x1, x2, y1, y2):
+    a = x1-x2
+    b = y1-y2
+    return (a**2+b**2)**(1/2)
+def slope(x1, x2, y1, y2):
+    a = x1-x2
+    b = y1-y2
+    return b/a
+def slope2Angle(slope):
+    if slope == "inf":
+        return 90
+    else:
+        return math.atan(slope) * (180/math.pi)
 def doubleSort(A, B):
     for i in range(0, len(A)):
         minIndex = i
@@ -73,16 +87,14 @@ def x1x2(file_name):
     #==============================================appending required informations such as length and slope==================
     for each in FourErrorCoordinL:
         for eachInd in range(len(FourErrorCoordinL)):
-            if FourErrorCoordinL[eachInd] == each: pass
+            if FourErrorCoordinL[eachInd] == each: 
+                pass
             else:
-                slopeL.append((FourErrorCoordinL[eachInd][1]-each[1])/(FourErrorCoordinL[eachInd][0]-each[0]))
-                lengthL.append(((FourErrorCoordinL[eachInd][1]-each[1])**2+(FourErrorCoordinL[eachInd][0]-each[0])**2)**(1/2))
+                slopeL.append(slope(FourErrorCoordinL[eachInd][0], each[0], FourErrorCoordinL[eachInd][1], each[1]))
+                lengthL.append(pythagorasTheorem(FourErrorCoordinL[eachInd][0], each[0], FourErrorCoordinL[eachInd][1], each[1]))
     #=============================================slope to angle============================================================= 
     for each in slopeL:
-        if each == 'inf':
-            angleL.append(90)
-        else:
-            angleL.append(math.atan(each)*(180/math.pi))
+        angleL.append(slope2Angle(each))
     #=============================================sorting things using length and angle======================================
     print(lengthL)
     for each in range(len(lengthL)):
@@ -113,7 +125,7 @@ def x1x2(file_name):
             if each == eachT:
                 pass
             else:
-                lengthL.append(((eachT[1]-each[1])**2+(eachT[0]-each[0])**2)**(1/2))
+                lengthL.append(pythagorasTheorem(eachT[0], each[0], eachT[1], each[1]))
     print(setJustifyL, lengthL)
     divLen = (len(setJustifyL)-1)
     IndA = (lengthL.index(max(lengthL)))%divLen
@@ -140,15 +152,15 @@ def x1x2(file_name):
                 tempL.append([yLStandardSortL[1][each], yLStandardSortL[0][each]])
     for each in tempL:
         if backOuterCoorL[0][0] < backOuterCoorL[1][0]:
-            slopeL.append((backOuterCoorL[0][1]-each[1])/(backOuterCoorL[0][0]-each[0]))
-            lengthL.append(((backOuterCoorL[0][1]-each[1])**2+(backOuterCoorL[0][0]-each[0])**2)**(1/2))#
-            slope2L.append((backOuterCoorL[1][1]-each[1])/(backOuterCoorL[1][0]-each[0]))
-            length2L.append(((backOuterCoorL[1][1]-each[1])**2+(backOuterCoorL[1][0]-each[0])**2)**(1/2))
+            slopeL.append(slope(backOuterCoorL[0][0],each[0],backOuterCoorL[0][1],each[1]))
+            lengthL.append(pythagorasTheorem(backOuterCoorL[0][0],each[0],backOuterCoorL[0][1],each[1]))#
+            slope2L.append(slope(backOuterCoorL[1][0], each[0], backOuterCoorL[1][1], each[1]))
+            length2L.append(pythagorasTheorem(backOuterCoorL[1][0], each[0], backOuterCoorL[1][1], each[1]))
         elif backOuterCoorL[0][0] > backOuterCoorL[1][0]:
-            slope2L.append((backOuterCoorL[0][1]-each[1])/(backOuterCoorL[0][0]-each[0]))
-            length2L.append(((backOuterCoorL[0][1]-each[1])**2+(backOuterCoorL[0][0]-each[0])**2)**(1/2))
-            slopeL.append((backOuterCoorL[1][1]-each[1])/(backOuterCoorL[1][0]-each[0]))
-            lengthL.append(((backOuterCoorL[1][1]-each[1])**2+(backOuterCoorL[1][0]-each[0])**2)**(1/2))
+            slope2L.append(slope(backOuterCoorL[0][0],each[0],backOuterCoorL[0][1],each[1]))
+            length2L.append(pythagorasTheorem(backOuterCoorL[0][0],each[0],backOuterCoorL[0][1],each[1]))
+            slopeL.append(slope(backOuterCoorL[1][0], each[0], backOuterCoorL[1][1], each[1]))
+            lengthL.append(pythagorasTheorem(backOuterCoorL[1][0], each[0], backOuterCoorL[1][1], each[1]))
     '''
     for each in range(len(lengthL)):
         if lengthL[each] > 28.5:
@@ -158,17 +170,11 @@ def x1x2(file_name):
             angleL.pop(each)
     '''
     for each in slopeL:
-        if each == 'inf':
-            angleL.append(90)
-        else:
-            angleL.append(math.atan(each)*(180/math.pi))
+        angleL.append(slope2Angle(each))
     backBottomL.append(tempL[angleL.index(max(angleL))])
     del angleL[:]#reset the list before recycling
     for each in slope2L:
-        if each == 'inf':
-            angleL.append(90)
-        else:
-            angleL.append(math.atan(each)*(180/math.pi))
+        angleL.append(slope2Angle(each))
     '''
     for each in range(len(lengthL)):
         if length2L[each] > 28.5:
@@ -224,8 +230,8 @@ def x1x2(file_name):
         if xLStandardSortL[0][each] >= backrightOuterCoor[0]:
             pointsForFr.append([xLStandardSortL[0][each], xLStandardSortL[1][each]])
     '''
-    bl = math.sqrt((((backleftTwoCoorInd[0][0]-backleftTwoCoorInd[1][0])**2 + (backleftTwoCoorInd[0][1]-backleftTwoCoorInd[1][1])**2)**(1/2)*cmDivPixB)**2-8)
-    br = math.sqrt((((backrighttTwoCoorInd[0][0]-backrighttTwoCoorInd[1][0])**2 + (backrighttTwoCoorInd[0][1]-backrighttTwoCoorInd[1][1])**2)**(1/2)*cmDivPixB)**2-8)
+    bl = math.sqrt((pythagorasTheorem(backleftTwoCoorInd[0][0], backleftTwoCoorInd[1][0], backleftTwoCoorInd[0][1], backleftTwoCoorInd[1][1])*cmDivPixB)**2-8)
+    br = math.sqrt((pythagorasTheorem(backrighttTwoCoorInd[0][0], backrighttTwoCoorInd[1][0], backrighttTwoCoorInd[0][1], backrighttTwoCoorInd[1][1])*cmDivPixB)**2-8)
     #print("--- %s seconds ---" % (time.time() - start_time))
     return bl, br
 print(x1x2('processed_img/processed6.png'))#6, 2
