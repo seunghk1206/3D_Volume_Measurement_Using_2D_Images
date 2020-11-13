@@ -234,5 +234,5 @@ def x1x2(file_name):
     br = math.sqrt((pythagorasTheorem(backrighttTwoCoorInd[0][0], backrighttTwoCoorInd[1][0], backrighttTwoCoorInd[0][1], backrighttTwoCoorInd[1][1])*cmDivPixB)**2-8)
     #print("--- %s seconds ---" % (time.time() - start_time))
     return bl, br
-print(x1x2('processed_img/processed6.png'))#6, 2
+print(x1x2('processed_img/processed2.png'))#6, 2
 #prob= 1, 3, 4, 5, 7, 8
