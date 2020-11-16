@@ -8,15 +8,18 @@ def pythagorasTheorem(x1, x2, y1, y2):
     a = x1-x2
     b = y1-y2
     return (a**2+b**2)**(1/2)
+
 def slope(x1, x2, y1, y2):
     a = x1-x2
     b = y1-y2
     return b/a
+
 def slope2Angle(slope):
     if slope == "inf":
         return 90
     else:
         return math.atan(slope) * (180/math.pi)
+
 
 def doubleSort(A, B):
     for i in range(0, len(A)):
@@ -26,12 +29,14 @@ def doubleSort(A, B):
                 A[j], A[minIndex] = A[minIndex], A[j]
                 B[j], B[minIndex] = B[minIndex], B[j]
     return [A, B]
+
 def cornerDetection(file_name, quality):
     img = cv2.imread(file_name) 
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  
     corners = cv2.goodFeaturesToTrack(gray_img, 300, quality, 10) 
     corners = np.int0(corners) 
     return corners
+
 def xLyLCorner(corners):
     xL = []; yL = []
     for each in corners: 
@@ -49,6 +54,7 @@ def showCorner(img, corners):
     if cv2.waitKey(0) & 0xff == 27:  
         cv2.destroyAllWindows() 
     return None
+
 def FourErrSorting(xLStandardSortL, FourErrorCoordinL, divFactor, gray_img):
     slopeL = []; lengthL = []; angleL = []; justifyL = []; setJustifyL =[]
 
@@ -109,7 +115,13 @@ def FourErrSorting(xLStandardSortL, FourErrorCoordinL, divFactor, gray_img):
     backOuterCoorL.append(setJustifyL[IndA])
     backOuterCoorL.append(setJustifyL[IndB])
     return backOuterCoorL
-def x1x2(file_name):
+
+def main(file_name):
+    backBottomL = []
+    tempL = []
+    slopeL = []
+    slope2L = []
+    angleL = []
     img = cv2.imread(file_name) 
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  
     #start_time = time.time()
@@ -117,56 +129,62 @@ def x1x2(file_name):
     #corners2 = cornerDetection(file_name, 0.0001)
     #=============================key point ====================================
     tempL = xLyLCorner(corners)
-    xL = tempL[0]; yL = tempL[1]
-    ######====make it unproceeding if you only want the data.=========
+    xL = tempL[0]
+    yL = tempL[1]
+
+    #Make it unproceeding if you only want the data.
     showCorner(cv2.imread(file_name), corners)
+
     #copyright, GeeksforGeeks @hachiman_20
-    #================making lists for required information/sorted list using an axis as the base=================
+    # Making lists for required information/sorted list using an axis as the base
     yLStandardSortL = doubleSort(yL, xL)#index 0 is yL
-    #============================raw list is required for sorting again!, so reset the list======================
-    xL = tempL[0]; yL = tempL[1]
+    # Raw list is required for sorting again!, so reset the list
+    xL = tempL[0]
+    yL = tempL[1]
+
     #===========================doubleSort the list again with x as its standardL================================
     xLStandardSortL = doubleSort(xL, yL)#index 0 is xL
-    #========================================All normal variables are ready now!=================================
+    # All normal variables are ready now
     divFactor = 3; FourErrorCoordinL = [[yLStandardSortL[1][each], yLStandardSortL[0][each]] for each in range(divFactor+1)]
     backOuterCoorL = FourErrSorting(xLStandardSortL, FourErrorCoordinL, divFactor, gray_img)
-    #=============================================================================================================================================================================
-    #==========================================================backBottom Coordinates!============================================================================================
-    #=============================================================================================================================================================================
+    
+    # BackBottom Coordinates
+
     FrontOuterL = [[xLStandardSortL[0][0], xLStandardSortL[1][0]], [xLStandardSortL[0][-1], xLStandardSortL[1][-1]]]
-    #==========================Declare the list for backBottomCoordinates and the other required lists=======================
-    backBottomL = []; tempL = []; slopeL = []; slope2L = []; angleL = []#; lengthL = []; length2L = []
-    #===================================create the equation for the indication line!=========================================
+    
+    # Create the equation for the indication line
     slopeOfIndicationLine = (FrontOuterL[0][1]-FrontOuterL[1][1])/(FrontOuterL[0][0]-FrontOuterL[1][0])
-    c = FrontOuterL[0][1]-slopeOfIndicationLine*FrontOuterL[0][0]
-    #function can be called by saying: y = slopeOfIndicationLine * x + c
-    #====================use the equation of the indication line for determining the backBottom point========================
+    c = FrontOuterL[0][1]-slopeOfIndicationLine*FrontOuterL[0][0]# Function can be called by saying: y = slopeOfIndicationLine * x + c
+
+    # Use the equation of the indication line for determining the backBottom point
     for each in range(len(yLStandardSortL[0])):
         if yLStandardSortL[0][each] < slopeOfIndicationLine * yLStandardSortL[1][each] + c and min(backOuterCoorL[0][0], backOuterCoorL[1][0]) < yLStandardSortL[1][each] < max(backOuterCoorL[0][0], backOuterCoorL[1][0]):
             if [yLStandardSortL[1][each], yLStandardSortL[0][each]] not in backOuterCoorL:
                 tempL.append([yLStandardSortL[1][each], yLStandardSortL[0][each]])
+
     for each in tempL:
         if backOuterCoorL[0][0] < backOuterCoorL[1][0]:
             slopeL.append(slope(backOuterCoorL[0][0],each[0],backOuterCoorL[0][1],each[1]))
             #lengthL.append(pythagorasTheorem(backOuterCoorL[0][0],each[0],backOuterCoorL[0][1],each[1]))#
             slope2L.append(slope(backOuterCoorL[1][0], each[0], backOuterCoorL[1][1], each[1]))
             #length2L.append(pythagorasTheorem(backOuterCoorL[1][0], each[0], backOuterCoorL[1][1], each[1]))
+
         elif backOuterCoorL[0][0] > backOuterCoorL[1][0]:
             slope2L.append(slope(backOuterCoorL[0][0],each[0],backOuterCoorL[0][1],each[1]))
             #length2L.append(pythagorasTheorem(backOuterCoorL[0][0],each[0],backOuterCoorL[0][1],each[1]))
             slopeL.append(slope(backOuterCoorL[1][0], each[0], backOuterCoorL[1][1], each[1]))
             #lengthL.append(pythagorasTheorem(backOuterCoorL[1][0], each[0], backOuterCoorL[1][1], each[1]))
+
     for each in slopeL:
         angleL.append(slope2Angle(each))
     backBottomL.append(tempL[angleL.index(max(angleL))])
     del angleL[:]#reset the list before recycling
+
     for each in slope2L:
         angleL.append(slope2Angle(each))
     backBottomL.append(tempL[angleL.index(min(angleL))])
 
-    #=============================================================================================================================================================================
-    #=====================================================determining the bl and br using the backBottomL=========================================================================
-    #=============================================================================================================================================================================
+    # Determining the bl and br using the backBottomL
 
     outerUpperLen = ((backOuterCoorL[0][0]-backOuterCoorL[1][0])**2+(backOuterCoorL[0][1]-backOuterCoorL[1][1])**2)**(1/2)
     #meanL = (innerLowerL+innerUpperL)/2#unneeded because innerUpper != innerLower
@@ -213,5 +231,5 @@ def x1x2(file_name):
     br = math.sqrt((pythagorasTheorem(backrighttTwoCoorInd[0][0], backrighttTwoCoorInd[1][0], backrighttTwoCoorInd[0][1], backrighttTwoCoorInd[1][1])*cmDivPixB)**2-8)
     #print("--- %s seconds ---" % (time.time() - start_time))
     return bl, br
-print(x1x2('processed_img/processed2.png'))#6, 2
+print(main('processed_img/processed2.png'))#6, 2
 #prob= 1, 3, 4, 5, 7, 8
