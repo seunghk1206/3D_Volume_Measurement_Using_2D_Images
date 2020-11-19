@@ -115,6 +115,19 @@ def FourErrSorting(xLStandardSortL, FourErrorCoordinL, divFactor, gray_img):
     backOuterCoorL.append(setJustifyL[IndB])
     return backOuterCoorL
 
+def backInnerPointDecision(backOuterCoorL):
+    if backOuterCoorL[0][0] < backOuterCoorL[1][0]:
+        backleftOuterCoor = backOuterCoorL[0]
+        backrightOuterCoor = backOuterCoorL[1]
+    
+    elif backOuterCoorL[0][0] > backOuterCoorL[1][0]:
+        backleftOuterCoor = backOuterCoorL[1]
+        backrightOuterCoor = backOuterCoorL[0]
+    cmDivPixB = 30/pythagorasTheorem(backleftOuterCoor[0], backrightOuterCoor[0], backleftOuterCoor[1], backrightOuterCoor[1])
+    backInnerLeftCoor = [backleftOuterCoor[0]+2/cmDivPixB, backleftOuterCoor[1]+2/cmDivPixB]
+    backInnerRightCoor = [backrightOuterCoor[0]-2/cmDivPixB, backrightOuterCoor[1]+2/cmDivPixB]
+    return [backInnerLeftCoor, backInnerRightCoor]
+
 def main(file_name):
     backBottomL = []
     slopeL = []
@@ -184,7 +197,7 @@ def main(file_name):
 
     # Determining the bl and br using the backBottomL
 
-    outerUpperLen = ((backOuterCoorL[0][0]-backOuterCoorL[1][0])**2+(backOuterCoorL[0][1]-backOuterCoorL[1][1])**2)**(1/2)
+    outerUpperLen = pythagorasTheorem(backOuterCoorL[0][0], backOuterCoorL[1][0], backOuterCoorL[0][1], backOuterCoorL[1][1])
     #meanL = (innerLowerL+innerUpperL)/2#unneeded because innerUpper != innerLower
     cmDivPixB = 30/outerUpperLen# extremely important!!
     if backOuterCoorL[0][0] < backOuterCoorL[1][0]:
@@ -208,25 +221,9 @@ def main(file_name):
         backrightOuterCoor = backOuterCoorL[0]
     
     # Front len part of the whole code
-    '''
-    #============================declare the lists that will be used to determine fl and fr==================================
-    pointsForFl = []; pointsForFr = []
-    #==================reset the xL & yL to the low quality corners in order to determine the fl and fr======================
-    xL = []; yL = []
-    for each in corners2: 
-        for i in each:
-            xL.append(i[0])
-            yL.append(i[1])
-    xLStandardSortL = doubleSort(xL, yL)
-    for each in range(len(xLStandardSortL[0])):
-        if xLStandardSortL[0][each] <= backleftOuterCoor[0]:
-            pointsForFl.append([xLStandardSortL[0][each], xLStandardSortL[1][each]])
-        if xLStandardSortL[0][each] >= backrightOuterCoor[0]:
-            pointsForFr.append([xLStandardSortL[0][each], xLStandardSortL[1][each]])
-    '''
     bl = math.sqrt((pythagorasTheorem(backleftTwoCoorInd[0][0], backleftTwoCoorInd[1][0], backleftTwoCoorInd[0][1], backleftTwoCoorInd[1][1])*cmDivPixB)**2-8)
     br = math.sqrt((pythagorasTheorem(backrighttTwoCoorInd[0][0], backrighttTwoCoorInd[1][0], backrighttTwoCoorInd[0][1], backrighttTwoCoorInd[1][1])*cmDivPixB)**2-8)
     #print("--- %s seconds ---" % (time.time() - start_time))
     return bl, br
-print(main('processed_img/processed2.png'))#6, 2
+print(main('processed_img/processed6.png'))#6, 2
 #prob= 1, 3, 4, 5, 7, 8
