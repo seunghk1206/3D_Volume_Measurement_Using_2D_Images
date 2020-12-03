@@ -9,7 +9,7 @@ def main(file_name):
     tempL = []
     img = cv2.imread(file_name) 
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  
-    corners = p3F.cornerDetection(file_name, 0.07)
+    corners = p3F.cornerDetection(file_name, 0.07) # 0.07, 
 
     xL = p3F.xLyLCorner(corners)[0]
     yL = p3F.xLyLCorner(corners)[1]
@@ -57,6 +57,8 @@ def main(file_name):
     br = math.sqrt((p3F.pythagorasTheorem(backrighttTwoCoorInd[0][0], backrighttTwoCoorInd[1][0], backrighttTwoCoorInd[0][1], backrighttTwoCoorInd[1][1])*cmDivPixB)**2-8)
     return bl, br
 
-print(main("processed_img/processed6.png"))# Possible candidates = 6, 2, 1
-# Mid = 9, 10
-# Prob = 3, 4, 5, 7, 8, 11
+print(main("processed_img/processed8.png"))# Possible candidates = 26, 25, 12, 6, 2, 1
+# Mid = 9, 10 < 14, 15, 16
+# Prob = 3, 4, 5, 7, 8, 11, 13, 17, 18, 19, 20, 21, 22, 23, 24
+# 최대 에러 가능 숫자 0.7cm
+# 
