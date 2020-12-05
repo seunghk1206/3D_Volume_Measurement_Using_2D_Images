@@ -227,3 +227,5 @@ def main(file_name):
     return bl, br
 print(main('processed_img/processed1.png'))#6, 2
 #prob= 1, 3, 4, 5, 7, 8
+# ZeroclassLab.corp : Computer Vision
+# -> Calculated the length of any cabinets
