@@ -167,3 +167,5 @@ def backLeftAndRightTwoCoorL(backOuterCoorL, backBottomL):
         elif backBottomL[0][0] > backBottomL[1][0]:
             backleftTwoCoorInd = [backOuterCoorL[1], backBottomL[1]]; backrighttTwoCoorInd = [backOuterCoorL[0], backBottomL[0]]
     return [backleftTwoCoorInd, backrighttTwoCoorInd]
+# ZeroclassLab.corp : Computer Vision
+# -> Calculated the length of any cabinets
