@@ -51,13 +51,15 @@ def main(file_name):
     backleftTwoCoorInd = p3F.backLeftAndRightTwoCoorL(backOuterCoorL, backBottomL)[0]
     backrighttTwoCoorInd = p3F.backLeftAndRightTwoCoorL(backOuterCoorL, backBottomL)[1]
     
+    print(backleftTwoCoorInd, backrighttTwoCoorInd)
+
     outerUpperLen = p3F.pythagorasTheorem(backOuterCoorL[0][0], backOuterCoorL[1][0], backOuterCoorL[0][1], backOuterCoorL[1][1])
     cmDivPixB = 30/outerUpperLen
     bl = math.sqrt((p3F.pythagorasTheorem(backleftTwoCoorInd[0][0], backleftTwoCoorInd[1][0], backleftTwoCoorInd[0][1], backleftTwoCoorInd[1][1])*cmDivPixB)**2-8)
     br = math.sqrt((p3F.pythagorasTheorem(backrighttTwoCoorInd[0][0], backrighttTwoCoorInd[1][0], backrighttTwoCoorInd[0][1], backrighttTwoCoorInd[1][1])*cmDivPixB)**2-8)
     return bl, br
 
-print(main("processed_img/processed8.png"))# Possible candidates = 26, 25, 12, 6, 2, 1
+print(main("processed_img/processed25.png"))# Possible candidates = 26, 25, 12, 6, 2, 1
 # Mid = 9, 10 < 14, 15, 16
 # Prob = 3, 4, 5, 7, 8, 11, 13, 17, 18, 19, 20, 21, 22, 23, 24
 # 최대 에러 가능 숫자 0.7cm
